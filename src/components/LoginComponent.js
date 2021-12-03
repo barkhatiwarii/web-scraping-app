@@ -15,8 +15,8 @@ export default class LoginComponent extends Component {
     this.state = {
       isVerified: false,
       captchaValue: "",
-      userEmail: "barkha.tiwari@scraping.com",
-      userPassword: "Scraping@123",
+      userEmail: "test@scraping.com",
+      userPassword: "Password@123",
       email: "",
       password: "",
       redirect: false

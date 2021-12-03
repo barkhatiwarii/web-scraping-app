@@ -5,17 +5,21 @@ import { createCaptcha } from "../actions/captchaActions";
 import CaptchaComponent from "./CaptchaComponent";
 import Header from "./layouts/Header";
 class SignUpComponent extends Component {
+  
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.state = {
           user: {},
           errors: {},
-          name:'',
+          username:'',
           email:'',
           password:'',
           captchaValue:''
         };
       }
+     
     componentDidMount(){
         this.props.createCaptcha()
     }
@@ -29,32 +33,43 @@ class SignUpComponent extends Component {
           this.setState({ errors: nextProps.errors });
         }
       }
+      handleSubmit(event) {
+        event.preventDefault();
+        if(!this.state.captchaValue.length){
+          alert("Captcha value cannot be empty!")
+          return
+        }
+        console.log("hey",this.state.user)
+        if(this.state.captchaValue==this.props.user.answer){
+          alert("Captcha verified!")
+          return
+        }
+        else{
+          alert("Captcha invalid!")
+          this.props.createCaptcha()
+          return
+        }
+      }
+    
       onChange(event) {
         this.setState({ [event.target.name]: event.target.value });
       }
     render() {
         var image = this.props.user.image
-        var t=image
-        console.log(image)
-        if (image){
-        let l=image.length;
-        t=image.substring(5,l-6)
-        console.log(t)
-        }
-
+      
     return (
       <div>
         <Header />
         <div className="auth-wrapper">
         <div className="auth-inner">
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <h3>Sign Up</h3>
 
                 <div className="form-group m-1 p-1">
                     <input type="text" className="form-control" placeholder="Enter username"
-                     name="name"
-                     id="name"
-                     value={this.state.name}
+                     name="username"
+                     id="username"
+                     value={this.state.username}
                      onChange={this.onChange} 
                     />
                 </div>
@@ -93,7 +108,7 @@ class SignUpComponent extends Component {
                 type="submit"
                 className="btn btn-primary btn-block m-1 p-1"
               >
-                Sign Up
+                Register
               </button>
               <p className="forgot-password text-right">
                 Already registered <a href="/signin">sign in?</a>
