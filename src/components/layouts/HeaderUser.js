@@ -16,6 +16,11 @@ export default class HeaderUser extends Component {
                   Profile
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/"}>
+                  Logout
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

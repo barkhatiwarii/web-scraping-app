@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Recaptcha from "react-recaptcha";
+import { Redirect } from "react-router";
 import Header from "./layouts/Header";
 
 export default class LoginComponent extends Component {
@@ -18,6 +19,8 @@ export default class LoginComponent extends Component {
       userPassword: "Scraping@123",
       email: "",
       password: "",
+      redirect: false
+
     };
   }
 
@@ -34,9 +37,9 @@ export default class LoginComponent extends Component {
         email === this.state.userEmail &&
         password === this.state.userPassword
       ) {
-        alert("Welcome!");
-        //add history.push
-        return;
+        // alert("Welcome!");
+        this.setState({ redirect: true })
+        return ;
       } else {
         alert("Invalid credentials!");
         this.setState({
@@ -62,7 +65,10 @@ export default class LoginComponent extends Component {
   }
 
   render() {
-    return (
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/dashboard"/>;
+    }    return (
       <div>
         <Header />
         <div className="auth-wrapper">
