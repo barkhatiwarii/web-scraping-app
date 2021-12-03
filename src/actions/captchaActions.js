@@ -6,7 +6,7 @@ import {
 
 export const createCaptcha = () => async (dispatch) => {
   try {
-    const res=await axios.get("http://localhost:3001/captcha/1");
+    const res=await axios.get("https://web-scrapping-app.herokuapp.com/captcha/1");
     dispatch({
         type: CREATE_CAPTCHA,
         payload: res.data,

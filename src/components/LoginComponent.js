@@ -14,6 +14,8 @@ export default class LoginComponent extends Component {
     this.state = {
       isVerified: false,
       captchaValue: "",
+      userEmail: "barkha.tiwari@scraping.com",
+      userPassword: "Scraping@123",
       email: "",
       password: "",
     };
@@ -25,7 +27,22 @@ export default class LoginComponent extends Component {
 
   handleSubmit() {
     if (this.state.isVerified) {
-      alert("You have successfully login!");
+      let email = this.state.email;
+      let password = this.state.password;
+      if (
+        email === this.state.userEmail &&
+        password === this.state.userPassword
+      ) {
+        alert("Welcome!");
+        //add history.push
+        return;
+      } else {
+        alert("Invalid credentials!");
+        this.setState({
+          password: "",
+        });
+        return;
+      }
     } else {
       alert("Please verify captcha!");
       return;
@@ -42,6 +59,7 @@ export default class LoginComponent extends Component {
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+
   render() {
     return (
       <div>
