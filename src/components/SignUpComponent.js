@@ -35,6 +35,8 @@ class SignUpComponent extends Component {
         }
 
         return (
+        <div className="auth-wrapper">
+        <div className="auth-inner">
             <form>
                 <h3>Sign Up</h3>
 
@@ -65,6 +67,8 @@ class SignUpComponent extends Component {
                     Already registered <a href="/signin">sign in?</a>
                 </p>
             </form>
+            </div>
+            </div>
         );
     }
 }

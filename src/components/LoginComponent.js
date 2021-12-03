@@ -44,6 +44,8 @@ export default class LoginComponent extends Component {
       }
     render() {
         return (
+            <div className="auth-wrapper">
+            <div className="auth-inner">
             <form onSubmit={this.handleSubmit}>
                 <h3>Sign In</h3>
 
@@ -74,6 +76,8 @@ export default class LoginComponent extends Component {
                 </div>
                 <button className="btn btn-primary btn-block m-1" >Login</button>
             </form>
+            </div>
+            </div>
         );
     }
 }

@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import LoginComponent from "./components/LoginComponent";
 import SignUpComponent from "./components/SignUpComponent";
+import DashboardComponent from './components/DashboardComponent';
 
 function App() {
   return (
@@ -31,15 +32,14 @@ function App() {
         </div>
       </nav>
 
-      <div className="auth-wrapper">
-        <div className="auth-inner">
           <Switch>
             <Route exact path='/' component={LoginComponent} />
             <Route path="/signin" component={LoginComponent} />
             <Route path="/signup" component={SignUpComponent} />
+            <Route path="/dashboard" component={DashboardComponent} />
+
           </Switch>
-        </div>
-      </div>
+    
     </div></Router>
     </Provider>
   );
