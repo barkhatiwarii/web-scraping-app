@@ -25,7 +25,8 @@ export default class LoginComponent extends Component {
         console.log("capcha successfully loaded");
       }
     
-      handleSubmit() {
+      handleSubmit(event) {
+        event.preventDefault();
         if (this.state.isVerified) {
         let email=this.state.email
         let password=this.state.password

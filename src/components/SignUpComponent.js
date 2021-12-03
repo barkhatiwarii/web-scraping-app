@@ -9,6 +9,10 @@ class SignUpComponent extends Component {
         this.state = {
           user: {},
           errors: {},
+          name:'',
+          email:'',
+          password:'',
+          captchaValue:''
         };
       }
     componentDidMount(){
@@ -24,6 +28,9 @@ class SignUpComponent extends Component {
           this.setState({ errors: nextProps.errors });
         }
       }
+      onChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+      }
     render() {
         var image = this.props.user.image
         var t=image
@@ -37,19 +44,32 @@ class SignUpComponent extends Component {
         return (
         <div className="auth-wrapper">
         <div className="auth-inner">
-            <form>
+            <form onSubmit={}>
                 <h3>Sign Up</h3>
 
                 <div className="form-group m-1 p-1">
-                    <input type="text" className="form-control" placeholder="Enter username" />
+                    <input type="text" className="form-control" placeholder="Enter username"
+                     name="name"
+                     id="name"
+                     value={this.state.name}
+                     onChange={this.onChange} 
+                    />
                 </div>
 
                 <div className="form-group m-1 p-1">
-                    <input type="email" className="form-control" placeholder="Enter email" />
+                    <input type="email" className="form-control" placeholder="Enter email" 
+                    name="email"
+                    id="email"
+                    value={this.state.email}
+                    onChange={this.onChange} />
                 </div>
 
                 <div className="form-group m-1 p-1">
-                    <input type="password" className="form-control" placeholder="Enter password" />
+                    <input type="password" className="form-control" placeholder="Enter password"
+                    name="password"
+                    id="password"
+                    value={this.state.password}
+                    onChange={this.onChange} />
                 </div>
                 <div>
                 <div dangerouslySetInnerHTML={{ __html: image }} />
