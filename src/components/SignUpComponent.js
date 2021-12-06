@@ -38,7 +38,7 @@ class SignUpComponent extends Component {
     if (!this.state.captchaValue.length) {
       return message.info("Captcha value cannot be empty!");
     }
-    if (this.state.captchaValue === this.props.user.answer) {
+    if (this.state.captchaValue == this.props.user.answer) {
       message.success("Captcha Verified!");
 
       return this.setState({ redirect: true });
@@ -53,6 +53,7 @@ class SignUpComponent extends Component {
   }
   render() {
     var image = this.props.user.image;
+    console.log("this.props.user.answer ", this.props.user.answer);
     const { redirect } = this.state;
     if (redirect) {
       return <Redirect to="/signin" />;
@@ -117,7 +118,6 @@ class SignUpComponent extends Component {
               </div>
               <div>
                 <div dangerouslySetInnerHTML={{ __html: image }} />
-                {/* < CaptchaComponent/> */}
               </div>
               <button
                 type="submit"

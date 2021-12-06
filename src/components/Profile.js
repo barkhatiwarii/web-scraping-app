@@ -39,7 +39,7 @@ class Profile extends Component {
       return message.info("Captcha value cannot be empty!");
     }
     console.log("Profile 2", this.state.user);
-    if (this.state.captchaValue === this.props.user.answer) {
+    if (this.state.captchaValue == this.props.user.answer) {
       message.success("Captcha Verified!");
       return this.setState({ redirect: true });
     } else {
