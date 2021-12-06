@@ -21,6 +21,7 @@ export default class DashboardComponent extends Component {
                         class="img-responsive"
                         width="260"
                         height="250"
+                        alt="filter"
                       />
                       <span class="tag2 hot">HOT</span>
                     </div>

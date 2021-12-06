@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import HeaderUser from "./layouts/HeaderUser";
 import { Result, Button } from "antd";
 
@@ -18,7 +18,6 @@ export default class CartDetails extends Component {
               <Button type="primary" key="console">
                 <NavLink to="/dashboard">Home</NavLink>
               </Button>,
-              ,
             ]}
           />
         </div>

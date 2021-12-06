@@ -38,7 +38,7 @@ class SignUpComponent extends Component {
     if (!this.state.captchaValue.length) {
       return message.info("Captcha value cannot be empty!");
     }
-    if (this.state.captchaValue == this.props.user.answer) {
+    if (this.state.captchaValue === this.props.user.answer) {
       message.success("Captcha Verified!");
 
       return this.setState({ redirect: true });
