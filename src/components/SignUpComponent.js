@@ -2,97 +2,108 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createCaptcha } from "../actions/captchaActions";
-import CaptchaComponent from "./CaptchaComponent";
 import Header from "./layouts/Header";
-class SignUpComponent extends Component {
-  
-    constructor(props) {
-        super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.state = {
-          user: {},
-          errors: {},
-          username:'',
-          email:'',
-          password:'',
-          captchaValue:''
-        };
-      }
-     
-    componentDidMount(){
-        this.props.createCaptcha()
-    }
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps,"hiiiii")
-        if(nextProps.users){
-            this.setState({ user: nextProps.users.user });
+import { message } from "antd";
+import { Redirect } from "react-router";
 
-        }
-        if (nextProps.errors) {
-          this.setState({ errors: nextProps.errors });
-        }
-      }
-      handleSubmit(event) {
-        event.preventDefault();
-        if(!this.state.captchaValue.length){
-          alert("Captcha value cannot be empty!")
-          return
-        }
-        console.log("hey",this.state.user)
-        if(this.state.captchaValue==this.props.user.answer){
-          alert("Captcha verified!")
-          return
-        }
-        else{
-          alert("Captcha invalid!")
-          this.props.createCaptcha()
-          return
-        }
-      }
-    
-      onChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-      }
-    render() {
-        var image = this.props.user.image
-      
+class SignUpComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      user: {},
+      errors: {},
+      username: "",
+      email: "",
+      password: "",
+      captchaValue: "",
+      redirect: false,
+    };
+  }
+
+  componentDidMount() {
+    this.props.createCaptcha();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.users) {
+      this.setState({ user: nextProps.users.user });
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    if (!this.state.captchaValue.length) {
+      return message.info("Captcha value cannot be empty!");
+    }
+    if (this.state.captchaValue == this.props.user.answer) {
+      message.success("Captcha Verified!");
+
+      return this.setState({ redirect: true });
+    } else {
+      message.error("Invalid Captcha!");
+      return this.props.createCaptcha();
+    }
+  }
+
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+  render() {
+    var image = this.props.user.image;
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/signin" />;
+    }
     return (
       <div>
         <Header />
         <div className="auth-wrapper">
-        <div className="auth-inner">
+          <div className="auth-inner">
             <form onSubmit={this.handleSubmit}>
-                <h3>Sign Up</h3>
+              <h3>Sign Up</h3>
 
-                <div className="form-group m-1 p-1">
-                    <input type="text" className="form-control" placeholder="Enter username"
-                     name="username"
-                     id="username"
-                     value={this.state.username}
-                     onChange={this.onChange} 
-                    />
-                </div>
-
-                <div className="form-group m-1 p-1">
-                    <input type="email" className="form-control" placeholder="Enter email" 
-                    name="email"
-                    id="email"
-                    value={this.state.email}
-                    onChange={this.onChange} />
-                </div>
-
-                <div className="form-group m-1 p-1">
-                    <input type="password" className="form-control" placeholder="Enter password"
-                    name="password"
-                    id="password"
-                    value={this.state.password}
-                    onChange={this.onChange} />
-                </div>
-                <div>
-                <div dangerouslySetInnerHTML={{ __html: image }} />
-                {/* < CaptchaComponent/> */}
+              <div className="form-group m-1 p-1">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter username"
+                  name="username"
+                  id="username"
+                  value={this.state.username}
+                  onChange={this.onChange}
+                  required
+                />
               </div>
+
+              <div className="form-group m-1 p-1">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter email"
+                  name="email"
+                  id="email"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group m-1 p-1">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter password"
+                  name="password"
+                  id="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  required
+                />
+              </div>
+
               <div className="form-group m-1 p-1">
                 <input
                   type="text"
@@ -104,9 +115,13 @@ class SignUpComponent extends Component {
                   onChange={this.onChange}
                 />
               </div>
+              <div>
+                <div dangerouslySetInnerHTML={{ __html: image }} />
+                {/* < CaptchaComponent/> */}
+              </div>
               <button
                 type="submit"
-                className="btn btn-primary btn-block m-1 p-1"
+                className="btn btn-primary btn-block ms-3 mt-2 "
               >
                 Register
               </button>

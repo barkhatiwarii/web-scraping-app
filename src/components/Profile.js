@@ -2,30 +2,61 @@ import React, { Component } from "react";
 import HeaderUser from "./layouts/HeaderUser";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createCaptcha } from "../actions/captchaActions";
-import CaptchaComponent from "./CaptchaComponent";
+import { createTextCaptcha } from "../actions/captchaActions";
+import { message } from "antd";
 import { Link } from "react-router-dom";
-
+import { Redirect } from "react-router";
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: {},
       errors: {},
+      username: "",
       captcha: "",
       captchaValue: "",
+      redirect: false,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
-    this.props.createCaptcha();
+    this.props.createTextCaptcha();
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, "Profile");
+    if (nextProps.users) {
+      this.setState({ user: nextProps.users.user });
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    if (!this.state.captchaValue.length) {
+      return message.info("Captcha value cannot be empty!");
+    }
+    console.log("Profile 2", this.state.user);
+    if (this.state.captchaValue == this.props.user.answer) {
+      message.success("Captcha Verified!");
+      return this.setState({ redirect: true });
+    } else {
+      message.error("Invalid Captcha!");
+      return this.props.createTextCaptcha();
+    }
+  }
+
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
   render() {
     var image = this.props.user.image;
-    var t = image;
-    console.log(image);
-    if (image) {
-      let l = image.length;
-      t = image.substring(5, l - 6);
-      console.log(t);
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/profile" />;
     }
     return (
       <div>
@@ -42,25 +73,42 @@ class Profile extends Component {
         </div>
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <h3>To view profile! verify that you're a human</h3>
-
-              <div className="form-group m-2 p-1">
+              <div className="form-group m-1 p-1">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter Captcha"
-                  name="captcha"
-                  id="captcha"
-                  // value={this.state.email}
-                  // onChange={this.onChange}
+                  placeholder="Enter username"
+                  name="username"
+                  id="username"
+                  value={this.state.username}
+                  onChange={this.onChange}
+                  required
                 />
               </div>
 
-              <div className="ms-3">
-                <CaptchaComponent />
+              <div className="form-group m-1 p-1">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter captcha"
+                  name="captchaValue"
+                  id="captchaValue"
+                  value={this.state.captchaValue}
+                  onChange={this.onChange}
+                />
               </div>
-              <button className="btn btn-success btn-block mt-3 ms-3">
+              <div className="ms-2 me-2 border border-dark">
+                <div
+                  className="ps-5 pb-4"
+                  dangerouslySetInnerHTML={{ __html: image }}
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-success btn-block mt-3 ms-2"
+              >
                 Verify
               </button>
             </form>
@@ -71,10 +119,10 @@ class Profile extends Component {
   }
 }
 Profile.propTypes = {
-  createCaptcha: PropTypes.func.isRequired,
+  createTextCaptcha: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   errors: state.errors,
   user: state.users.user,
 });
-export default connect(mapStateToProps, { createCaptcha })(Profile);
+export default connect(mapStateToProps, { createTextCaptcha })(Profile);

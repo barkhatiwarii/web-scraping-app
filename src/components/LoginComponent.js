@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Recaptcha from "react-recaptcha";
 import { Redirect } from "react-router";
 import Header from "./layouts/Header";
+import { message } from "antd";
 
 export default class LoginComponent extends Component {
   constructor(props) {
@@ -19,8 +20,7 @@ export default class LoginComponent extends Component {
       userPassword: "Password@123",
       email: "",
       password: "",
-      redirect: false
-
+      redirect: false,
     };
   }
 
@@ -37,18 +37,17 @@ export default class LoginComponent extends Component {
         email === this.state.userEmail &&
         password === this.state.userPassword
       ) {
-        // alert("Welcome!");
-        this.setState({ redirect: true })
-        return ;
+        this.setState({ redirect: true });
+        return;
       } else {
-        alert("Invalid credentials!");
+        message.error("Invalid credentials!");
         this.setState({
           password: "",
         });
         return;
       }
     } else {
-      alert("Please verify captcha!");
+      message.info("Please verify captcha!");
       return;
     }
   }
@@ -67,8 +66,9 @@ export default class LoginComponent extends Component {
   render() {
     const { redirect } = this.state;
     if (redirect) {
-      return <Redirect to="/dashboard"/>;
-    }    return (
+      return <Redirect to="/dashboard" />;
+    }
+    return (
       <div>
         <Header />
         <div className="auth-wrapper">
@@ -108,7 +108,9 @@ export default class LoginComponent extends Component {
                   verifyCallback={this.verifyCallback}
                 />
               </div>
-              <button className="btn btn-primary btn-block m-1">Login</button>
+              <button className="btn btn-primary btn-block ms-3 mt-2">
+                Login
+              </button>
               <p className="forgot-password text-right">
                 Don't have an account <a href="/signup">sign up?</a>
               </p>

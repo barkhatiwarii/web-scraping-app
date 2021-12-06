@@ -12,7 +12,7 @@ export default class HeaderUser extends Component {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={"/profile"}>
+                <Link className="nav-link" to={"/verifyProfile"}>
                   Profile
                 </Link>
               </li>

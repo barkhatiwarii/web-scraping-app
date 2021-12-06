@@ -3,7 +3,8 @@ import HeaderUser from "./layouts/HeaderUser";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createCaptcha } from "../actions/captchaActions";
-import CaptchaComponent from "./CaptchaComponent";
+import { Redirect } from "react-router";
+import { message } from "antd";
 import { Link } from "react-router-dom";
 
 class Cart extends Component {
@@ -11,21 +12,48 @@ class Cart extends Component {
     super(props);
     this.state = {
       errors: {},
+      user: {},
       captcha: "",
+      address: "",
       captchaValue: "",
+      redirect: false,
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
     this.props.createCaptcha();
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.users) {
+      this.setState({ user: nextProps.users.user });
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    if (!this.state.captchaValue.length) {
+      return message.info("Captcha value cannot be empty!");
+    }
+    if (this.state.captchaValue == this.props.user.answer) {
+      message.success("Captcha Verified!");
+
+      return this.setState({ redirect: true });
+    } else {
+      message.error("Invalid Captcha!");
+      return this.props.createCaptcha();
+    }
+  }
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
   render() {
     var image = this.props.user.image;
-    var t = image;
-    console.log(image);
-    if (image) {
-      let l = image.length;
-      t = image.substring(5, l - 6);
-      console.log(t);
+    const { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/payment" />;
     }
     return (
       <div>
@@ -42,23 +70,34 @@ class Cart extends Component {
         </div>
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <h3>To buy! verify that you're a human</h3>
-
+              <div className="form-group m-2 p-1">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Address"
+                  name="address"
+                  id="address"
+                  value={this.state.address}
+                  onChange={this.onChange}
+                  required
+                />
+              </div>
               <div className="form-group m-2 p-1">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Enter Captcha"
-                  name="captcha"
-                  id="captcha"
-                  // value={this.state.email}
-                  // onChange={this.onChange}
+                  name="captchaValue"
+                  id="captchaValue"
+                  value={this.state.captchaValue}
+                  onChange={this.onChange}
                 />
               </div>
 
-              <div className="ms-3">
-                <CaptchaComponent />
+              <div className="">
+                <div dangerouslySetInnerHTML={{ __html: image }} />
               </div>
               <button className="btn btn-success btn-block mt-3 ms-3">
                 Verify

@@ -41,6 +41,7 @@ span {
   width: 450px;
   margin: auto;
   margin-top: 5%;
+  margin-bottom: 5%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
@@ -368,4 +369,21 @@ span {
   .prod-info-main .product-info {
     position: relative;
   }
+}
+/************PROFILE*********/
+.profile-card .ant-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.profile-card .ant-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.payment-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin: 8% auto 0 auto;
+}
+.payment-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }

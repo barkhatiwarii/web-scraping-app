@@ -44,7 +44,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
@@ -110,7 +110,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
@@ -176,7 +176,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
@@ -242,7 +242,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
@@ -309,7 +309,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
@@ -377,7 +377,7 @@ export default class DashboardComponent extends Component {
                     <div class="product-info smart-form">
                       <div class="row">
                         <div class="col-md-12">
-                          <Link to="/cart" class="btn btn-danger">
+                          <Link to="/verifyPayment" class="btn btn-danger">
                             Buy
                           </Link>
                           <a href="javascript:void(0);" class="btn btn-info">
