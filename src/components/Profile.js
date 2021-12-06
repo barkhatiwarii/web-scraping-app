@@ -101,7 +101,7 @@ class Profile extends Component {
               </div>
               <div className="ms-2 me-2 border border-dark">
                 <div
-                  className="ps-5 pb-4"
+                  className="ps-3"
                   dangerouslySetInnerHTML={{ __html: image }}
                 />
               </div>
