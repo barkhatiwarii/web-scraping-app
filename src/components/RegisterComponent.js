@@ -6,7 +6,7 @@ import Header from "./layouts/Header";
 import { message } from "antd";
 import { Redirect } from "react-router";
 
-class SignUpComponent extends Component {
+class RegisterComponent extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,7 +56,7 @@ class SignUpComponent extends Component {
     console.log("this.props.user.answer ", this.props.user.answer);
     const { redirect } = this.state;
     if (redirect) {
-      return <Redirect to="/signin" />;
+      return <Redirect to="/login" />;
     }
     return (
       <div>
@@ -126,7 +126,7 @@ class SignUpComponent extends Component {
                 Register
               </button>
               <p className="forgot-password text-right">
-                Already registered <a href="/signin">sign in?</a>
+                Already registered <a href="/login">sign in?</a>
               </p>
             </form>
           </div>
@@ -135,11 +135,11 @@ class SignUpComponent extends Component {
     );
   }
 }
-SignUpComponent.propTypes = {
+RegisterComponent.propTypes = {
   createCaptcha: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   errors: state.errors,
   user: state.users.user,
 });
-export default connect(mapStateToProps, { createCaptcha })(SignUpComponent);
+export default connect(mapStateToProps, { createCaptcha })(RegisterComponent);
