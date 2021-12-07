@@ -64,7 +64,7 @@ class SignUpComponent extends Component {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <form onSubmit={this.handleSubmit}>
-              <h3>Sign Up</h3>
+              <h3>Register</h3>
 
               <div className="form-group m-1 p-1">
                 <input
