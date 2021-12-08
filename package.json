@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@alex_xu/react-slider-vertify": "^1.1.8",
+    "@slider-captcha/react": "^1.0.0",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -16,7 +18,7 @@
     "react-recaptcha": "^2.3.10",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "redux-thunk": "^2.4.1",
     "web-vitals": "^1.1.2"
   },

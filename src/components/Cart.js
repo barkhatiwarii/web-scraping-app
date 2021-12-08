@@ -1,56 +1,46 @@
 import React, { Component } from "react";
 import HeaderUser from "./layouts/HeaderUser";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { createCaptcha } from "../actions/captchaActions";
 import { Redirect } from "react-router";
 import { message } from "antd";
 import { Link } from "react-router-dom";
+import { Vertify } from "@alex_xu/react-slider-vertify";
 
+const style = {
+  display: "inline-block",
+  marginRight: "20px",
+  marginBottom: "20px",
+  width: "100px",
+  padding: "5px 20px",
+  color: "#fff",
+  textAlign: "center",
+  cursor: "pointer",
+  background: "#1991FA",
+};
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: {},
-      user: {},
-      captcha: "",
       address: "",
-      captchaValue: "",
+      sliderSuccess: false,
       redirect: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-  componentDidMount() {
-    this.props.createCaptcha();
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.users) {
-      this.setState({ user: nextProps.users.user });
-    }
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
+
   handleSubmit(event) {
     event.preventDefault();
-    if (!this.state.captchaValue.length) {
-      return message.info("Captcha value cannot be empty!");
+    if (this.state.sliderSuccess == false) {
+      return message.info("Verify Captcha!");
     }
-    if (this.state.captchaValue == this.props.user.answer) {
-      message.success("Captcha Verified!");
-
+    if (this.state.sliderSuccess == true) {
       return this.setState({ redirect: true });
-    } else {
-      message.error("Invalid Captcha!");
-      return this.props.createCaptcha();
     }
   }
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
   render() {
-    var image = this.props.user.image;
     const { redirect } = this.state;
     if (redirect) {
       return <Redirect to="/payment" />;
@@ -76,7 +66,7 @@ class Cart extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter Address"
+                  placeholder="Enter Delivery Address"
                   name="address"
                   id="address"
                   value={this.state.address}
@@ -84,7 +74,7 @@ class Cart extends Component {
                   required
                 />
               </div>
-              <div className="form-group m-2 p-1">
+              {/**<div className="form-group m-2 p-1">
                 <input
                   type="text"
                   className="form-control"
@@ -94,13 +84,27 @@ class Cart extends Component {
                   value={this.state.captchaValue}
                   onChange={this.onChange}
                 />
-              </div>
-
-              <div className="">
+              </div> */}
+              <Vertify
+                style={style}
+                width={320}
+                height={160}
+                // visible={visible}
+                onSuccess={() => {
+                  this.setState({ sliderSuccess: true });
+                  message.success("Captcha Verified!");
+                }}
+                onFail={() => {
+                  this.setState({ sliderSuccess: false });
+                  message.error("Captcha Failed!");
+                }}
+                onRefresh={() => message.info("Refreshed!")}
+              />
+              {/**<div className="">
                 <div dangerouslySetInnerHTML={{ __html: image }} />
-              </div>
+    </div>*/}
               <button className="btn btn-success btn-block mt-3 ms-3">
-                Verify
+                Proceed
               </button>
             </form>
           </div>
@@ -109,11 +113,5 @@ class Cart extends Component {
     );
   }
 }
-Cart.propTypes = {
-  createCaptcha: PropTypes.func.isRequired,
-};
-const mapStateToProps = (state) => ({
-  errors: state.errors,
-  user: state.users.user,
-});
-export default connect(mapStateToProps, { createCaptcha })(Cart);
+
+export default Cart;

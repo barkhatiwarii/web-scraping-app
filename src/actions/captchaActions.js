@@ -1,7 +1,9 @@
 import axios from "axios";
 import { GET_ERRORS, CREATE_CAPTCHA } from "./type";
+
 const backend_uri_server = "https://web-scrapping-app.herokuapp.com";
 const local_uri_server = "http://localhost:3001";
+
 export const createCaptcha = () => async (dispatch) => {
   try {
     const res = await axios.get(`${backend_uri_server}/captcha/1`);
