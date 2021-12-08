@@ -1,59 +1,42 @@
 import React, { Component } from "react";
-import HeaderUser from "./layouts/HeaderUser";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { createTextCaptcha } from "../actions/captchaActions";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  LoadCanvasTemplateNoReload,
+  validateCaptcha,
+} from "react-simple-captcha";
 import { message } from "antd";
-import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
+import HeaderUser from "./layouts/HeaderUser";
+import { Link } from "react-router-dom";
+
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      errors: {},
       username: "",
-      captcha: "",
-      captchaValue: "",
       redirect: false,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
-    this.props.createTextCaptcha();
+    loadCaptchaEnginge(6);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps, "Profile");
-    if (nextProps.users) {
-      this.setState({ user: nextProps.users.user });
-    }
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-  handleSubmit(event) {
-    event.preventDefault();
-    if (!this.state.captchaValue.length) {
-      return message.info("Captcha value cannot be empty!");
-    }
-    console.log("Profile 2", this.state.user);
-    if (this.state.captchaValue == this.props.user.answer) {
-      message.success("Captcha Verified!");
-      return this.setState({ redirect: true });
+  doSubmit = () => {
+    let user_captcha = document.getElementById("user_captcha_input").value;
+
+    if (validateCaptcha(user_captcha) == true) {
+      this.setState({ redirect: true });
+      message.success("Captcha Matched");
+      // loadCaptchaEnginge(6);
+      // document.getElementById("user_captcha_input").value = "";
     } else {
-      message.error("Invalid Captcha!");
-      return this.props.createTextCaptcha();
+      message.error("Captcha Does Not Match");
+      document.getElementById("user_captcha_input").value = "";
     }
-  }
-
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
+  };
 
   render() {
-    var image = this.props.user.image;
     const { redirect } = this.state;
     if (redirect) {
       return <Redirect to="/profile" />;
@@ -73,56 +56,48 @@ class Profile extends Component {
         </div>
         <div className="auth-wrapper">
           <div className="auth-inner">
-            <form onSubmit={this.handleSubmit}>
-              <h3>To view profile! verify that you're a human</h3>
-              <div className="form-group m-1 p-1">
+            <h3>To view profile! verify that you're a human</h3>
+            <div>
+              <div className=" form-group col mt-3">
                 <input
+                  placeholder="Enter Username"
+                  id="username"
+                  name="username"
                   type="text"
                   className="form-control"
-                  placeholder="Enter username"
-                  name="username"
-                  id="username"
-                  value={this.state.username}
-                  onChange={this.onChange}
                   required
                 />
               </div>
-
-              <div className="form-group m-1 p-1">
+              <div className=" form-group col mt-3">
                 <input
+                  placeholder="Enter Captcha"
+                  id="user_captcha_input"
+                  name="user_captcha_input"
                   type="text"
                   className="form-control"
-                  placeholder="Enter captcha"
-                  name="captchaValue"
-                  id="captchaValue"
-                  value={this.state.captchaValue}
-                  onChange={this.onChange}
                 />
               </div>
-              <div className="ms-2 me-2 border border-dark">
-                <div
-                  className="ps-3"
-                  dangerouslySetInnerHTML={{ __html: image }}
-                />
+              <div className="col mt-3">
+                <LoadCanvasTemplate />
               </div>
-              <button
-                type="submit"
-                className="btn btn-success btn-block mt-3 ms-2"
-              >
-                Verify
-              </button>
-            </form>
+
+              <div className="col mt-3">
+                <div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={() => this.doSubmit()}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 }
-Profile.propTypes = {
-  createTextCaptcha: PropTypes.func.isRequired,
-};
-const mapStateToProps = (state) => ({
-  errors: state.errors,
-  user: state.users.user,
-});
-export default connect(mapStateToProps, { createTextCaptcha })(Profile);
+
+export default Profile;
